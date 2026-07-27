@@ -259,7 +259,7 @@ def checks(request: AuthenticatedHttpRequest, code: UUID) -> HttpResponse:
                 hidden_checks.add(check)
 
     # Hide checks that don't match the search string:
-    search = request.GET.get("search", "")
+    search = request.GET.get("search", "").lower()
     if search:
         for check in checks:
             haystack = f"{check.name}\n{check.slug}\n{check.code}"

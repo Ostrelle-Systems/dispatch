@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from concurrent.futures import Future
 from datetime import timedelta as td
 from unittest.mock import Mock, call, patch
 
@@ -244,3 +245,18 @@ class SendAlertsTestCase(BaseTestCase):
         self.assertEqual(
             statsd.incr.mock_calls, [call("hc.notifications.webhook.fail")]
         )
+
+    def test_on_notify_done_logs_check_code(self) -> None:
+        check = Check(project=self.project, status="up")
+        check.save()
+        flip = Flip(owner=check, created=now())
+
+        future: Future[str | None] = Future()
+        future.set_exception(Exception("boom"))
+
+        cmd = Command(stdout=Mock())
+        with self.assertLogs("hc", level="ERROR") as captured:
+            with self.assertRaises(Exception):
+                cmd.on_notify_done(flip, future)
+
+        self.assertIn(str(check.code), captured.records[0].getMessage())

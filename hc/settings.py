@@ -338,6 +338,10 @@ S3_SECURE = envbool("S3_SECURE", "True")
 # (example: "localhost:8125")
 STATSD_HOST = os.getenv("STATSD_HOST")
 
+# Timeout (in seconds) for outbound HTTP requests made by notification transports
+# (webhooks, Slack, Discord, etc.)
+NOTIFICATION_HTTP_TIMEOUT = envint("NOTIFICATION_HTTP_TIMEOUT", "30")
+
 # Integrations
 
 # Apprise

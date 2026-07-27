@@ -4,6 +4,7 @@ import logging
 import time
 from typing import TYPE_CHECKING, Any, NoReturn
 
+from django.conf import settings
 from django.template.loader import render_to_string
 
 from hc.front.templatetags.hc_extras import sortchecks
@@ -156,7 +157,7 @@ class HttpTransport(Transport):
                 json=json,
                 headers=headers,
                 auth=auth,
-                timeout=30,
+                timeout=settings.NOTIFICATION_HTTP_TIMEOUT,
             )
             if r.status_code not in (200, 201, 202, 204):
                 cls.raise_for_response(r)

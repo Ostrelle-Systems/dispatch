@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Improvements
 - Send flapping notices to all team members (not just the owner)
+- Make the outbound notification request timeout configurable via NOTIFICATION_HTTP_TIMEOUT
 
 ### Bug Fixes
 - Fix the email integration to sanitize long lines in .eml attachments

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import functools
 import logging
 import signal
 import time
@@ -78,14 +79,16 @@ class Command(BaseCommand):
             help="Use DB connection pool (PostgreSQL-only)",
         )
 
-    def on_notify_done(self, future: Future[str | None]) -> None:
+    def on_notify_done(self, flip: Flip, future: Future[str | None]) -> None:
         self.seats.release()
 
         try:
             if logs := future.result():
                 self.stdout.write(logs)
         except Exception as exc:
-            logger.error("Exception in notify", exc_info=exc)
+            logger.error(
+                "Exception in notify for check %s", flip.owner.code, exc_info=exc
+            )
             raise exc
 
     def process_one_flip(self) -> bool:
@@ -117,7 +120,7 @@ class Command(BaseCommand):
 
         statsd.incr("hc.sendalerts.processFlip")
         f = self.executor.submit(notify, flip)
-        f.add_done_callback(self.on_notify_done)
+        f.add_done_callback(functools.partial(self.on_notify_done, flip))
         return True
 
     def handle_going_down(self) -> bool:

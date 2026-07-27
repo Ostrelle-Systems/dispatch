@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Improvements
 - Send flapping notices to all team members (not just the owner)
+- Include the check code in sendalerts' "Exception in notify" crash logs
 
 ### Bug Fixes
 - Fix the email integration to sanitize long lines in .eml attachments

@@ -95,6 +95,16 @@
                     </button>
                 </form>
                 {% if rw %}
+                <form action="{% url 'hc-duplicate-channel' ch.code %}" method="post">
+                    {% csrf_token %}
+                    <button
+                        class="btn btn-sm btn-default"
+                        data-toggle="tooltip"
+                        title="Duplicate this integration"
+                        type="submit">
+                        Duplicate
+                    </button>
+                </form>
                 <button
                     data-kind="{{ ch.get_kind_display }}"
                     data-url="{% url 'hc-remove-channel' ch.code %}"

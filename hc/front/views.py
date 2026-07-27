@@ -1333,6 +1333,22 @@ def remove_channel(request: AuthenticatedHttpRequest, code: UUID) -> HttpRespons
     return redirect("hc-channels", project.code)
 
 
+@require_POST
+@login_required
+def duplicate_channel(request: AuthenticatedHttpRequest, code: UUID) -> HttpResponse:
+    channel, rw = _get_channel_for_user(request, code)
+
+    new_channel = Channel(project=channel.project, kind=channel.kind)
+    new_channel.name = f"{channel.name} (copy)" if channel.name else ""
+    new_channel.value = channel.value
+    new_channel.save()
+
+    new_channel.checks.add(*channel.checks.all())
+
+    messages.success(request, "Integration duplicated!")
+    return redirect("hc-channels", channel.project.code)
+
+
 @login_required
 def edit_channel(request: AuthenticatedHttpRequest, code: UUID) -> HttpResponse:
     channel = _get_rw_channel_for_user(request, code)

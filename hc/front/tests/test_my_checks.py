@@ -113,6 +113,11 @@ class MyChecksTestCase(BaseTestCase):
         self.assertContains(r, "?tag=foo&search=bar&sort=name")
         self.assertContains(r, "?tag=foo&search=bar&sort=last_ping")
 
+    def test_search_is_case_insensitive(self) -> None:
+        self.client.login(username="alice@example.org", password="password")
+        r = self.client.get(self.url + "?search=ALICE")
+        self.assertEqual(r.context["num_visible"], 1)
+
     def test_it_ignores_bad_sort_value(self) -> None:
         self.client.login(username="alice@example.org", password="password")
         self.client.get(self.url + "?sort=invalid")

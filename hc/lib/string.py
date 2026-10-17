@@ -52,8 +52,9 @@ def is_valid_uuid_string(value: str) -> bool:
 
 
 def match_keywords(haystack: str, keywords: str) -> bool:
+    haystack = haystack.lower()
     for s in keywords.split(","):
-        s = s.strip()
+        s = s.strip().lower()
         if s and s in haystack:
             return True
 

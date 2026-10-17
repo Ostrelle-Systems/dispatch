@@ -37,6 +37,11 @@ def format_duration(duration: timedelta) -> str:
         elif v > 1:
             result.append(f"{v} {unit.plural}")
 
+    if not result:
+        # Durations under a minute would otherwise render as an empty string
+        unit = SECOND.name if remaining_seconds == 1 else SECOND.plural
+        result.append(f"{remaining_seconds} {unit}")
+
     return " ".join(result)
 
 

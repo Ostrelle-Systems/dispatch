@@ -8,6 +8,7 @@ import time_machine
 
 from hc.lib.date import (
     day_boundaries,
+    format_duration,
     format_approx_duration,
     format_duration_for_sentence,
     format_hms,
@@ -43,6 +44,11 @@ class DateFormattingTestCase(TestCase):
 
         s = format_hms(td(seconds=60 * 60))
         self.assertEqual(s, "1 h 0 min 0 sec")
+
+
+    def test_format_duration_handles_sub_minute(self) -> None:
+        self.assertEqual(format_duration(td(seconds=45)), "45 seconds")
+        self.assertEqual(format_duration(td(seconds=1)), "1 second")
 
 
 class ApproxFormattingTestCase(TestCase):

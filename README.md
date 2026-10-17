@@ -36,6 +36,8 @@ python manage.py test
 mypy hc
 ```
 
+To run the tests for a single app, pass its label, for example `python manage.py test hc.api`.
+
 ## Related services
 
 - `shipment-tracker` — event source for SLA evaluation

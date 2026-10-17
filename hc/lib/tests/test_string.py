@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from hc.lib.string import replace
+from hc.lib.string import match_keywords, replace
 
 
 class StringTestCase(TestCase):
@@ -21,3 +21,9 @@ class StringTestCase(TestCase):
     def test_it_preserves_non_placeholder_dollar_signs(self) -> None:
         result = replace("$3.50", {"$A": "text"})
         self.assertEqual(result, "$3.50")
+
+    def test_match_keywords_ignores_case(self) -> None:
+        self.assertTrue(match_keywords("Backup FAILED on db-1", "failed, error"))
+
+    def test_match_keywords_skips_empty_keywords(self) -> None:
+        self.assertFalse(match_keywords("all good", " , "))

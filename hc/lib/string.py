@@ -48,7 +48,7 @@ def replace(template: str, ctx: dict[str, str]) -> str:
 
 
 def is_valid_uuid_string(value: str) -> bool:
-    return bool(uuid_match_regex.match(value))
+    return bool(uuid_match_regex.match(value.strip()))
 
 
 def match_keywords(haystack: str, keywords: str) -> bool:

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from hc.lib.string import replace
+from hc.lib.string import is_valid_uuid_string, replace
 
 
 class StringTestCase(TestCase):
@@ -21,3 +21,7 @@ class StringTestCase(TestCase):
     def test_it_preserves_non_placeholder_dollar_signs(self) -> None:
         result = replace("$3.50", {"$A": "text"})
         self.assertEqual(result, "$3.50")
+
+    def test_uuid_check_ignores_surrounding_whitespace(self) -> None:
+        self.assertTrue(is_valid_uuid_string(" 4f7a0c66-5bd6-4f5e-9a1d-3c2b1e0f9a77\n"))
+        self.assertFalse(is_valid_uuid_string("not-a-uuid"))

@@ -13,6 +13,7 @@ Job scheduling and SLA monitoring service for the Ostrelle Systems logistics pla
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt -r requirements-dev.txt
 cp hc/local_settings.py.example hc/local_settings.py   # set DB creds + secrets
 python manage.py migrate
